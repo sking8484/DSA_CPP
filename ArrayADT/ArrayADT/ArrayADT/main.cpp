@@ -120,6 +120,57 @@ public:
         length--;
     }
     
+    // !!!!! Reversing and shifting !!!!! //
+    
+    // Reversing Array
+    
+    void reverse(){
+        int B[length];
+        
+        for (int i=length-1,j=0;i>=0;i--,j++){
+            B[j] = A[i];
+        }
+        for (int i=0;i<length;i++){
+            A[i] = B[i];
+        }
+    }
+    
+    // Left shift
+    
+    void leftShift(){
+        for (int i=0;i<length;i++){
+            if (i+1 == length){
+                A[i] = 0;
+            } else {
+                A[i] = A[i+1];
+            }
+        }
+    }
+    
+    void leftRotation(){
+        int first = A[0];
+        for (int i=0;i<length;i++){
+            if (i+1 == length){
+                A[i] = first;
+            } else {
+                A[i] = A[i+1];
+            }
+        }
+    }
+    
+    void rotationLoop(int n){
+        while (n>0){
+            leftRotation();
+            display();
+            cout<<endl;
+            n--;
+        }
+    }
+    
+    
+    
+    // !!!!! Searching !!!!!
+    
     // Linear Search Algo
     int searchLin(int key){
         for (int i=0;i<length;i++){
@@ -166,13 +217,10 @@ int main(int argc, const char * argv[]) {
     Array X(len);
     X.setArray(ary);
     X.display();
-    i=X.searchBin(4);
-    cout<<i<<endl;
-    cout<<X.avg();
+    cout<<"Beginning rotation loop"<<endl;
     cout<<endl;
-    cout<<X.get(3)<<endl;
-    cout<<X.sum()<<endl;
-    cout<<X.len()<<endl;
+    
+    X.rotationLoop(10);
     
     
     return 0;
