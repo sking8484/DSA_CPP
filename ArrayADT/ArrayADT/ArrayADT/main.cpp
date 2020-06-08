@@ -147,6 +147,8 @@ public:
         }
     }
     
+    
+    
     void leftRotation(){
         int first = A[0];
         for (int i=0;i<length;i++){
@@ -167,7 +169,89 @@ public:
         }
     }
     
+    // Right Movements
     
+    void rightShift(){
+        for (int i=length-1;i>=0;i--){
+            if (i == 0){
+                A[i] =0;
+            } else {
+                A[i] = A[i-1];
+            }
+        }
+    }
+    
+    void rightRotation(){
+        int last = A[length-1];
+        for (int i=length-1;i>=0;i--){
+            if (i==0){
+                A[i] = last;
+            } else {
+                A[i] = A[i-1];
+            }
+        }
+    }
+    
+    
+    // Sorted Insert
+    
+    void insertSorted(int x){
+        
+        int i = length -1;
+        while (A[i] > x){
+            A[i+1] = A[i];
+            i--;
+        } A[i+1] = x;
+    }
+    
+    bool isSorted(){
+        for (int i=0;i<length-1;i++){
+            if (A[i+1]<A[i]){
+                return false;
+            }
+        } return true;
+    }
+    
+    void moveSigns(){
+        int i=0,j=length-1;
+        int neg,pos;
+        while (i<j){
+            while (A[i] < 0){
+                i++;
+            } while (A[j] > 0){
+                j--;
+            } if (i<j){
+                neg = A[j];
+                pos = A[i];
+                A[i] = neg;
+                A[j] = pos;
+            }
+        }
+    }
+    
+    // !!!!! Merging !!!!! //
+    
+    Array merge(Array B){
+        int m = this->length;
+        int n = B.len();
+        int *C = new int[m+n];
+        
+        int i=0,j=0,k=0;
+        while (i<m && j<n){
+            if(A[i]< B.get(j)){
+                C[k++] = A[i++];
+            } else {
+                C[k++] = B.get(j++);
+            }
+        } for (; i<m;i++){
+            C[k++] = A[i];
+        } for (; j<n;j++){
+            C[k++] = B.get(j);
+        } Array D(m+n);
+        D.setArray(C);
+        return D;
+        
+    }
     
     // !!!!! Searching !!!!!
     
@@ -206,22 +290,28 @@ public:
 
 int main(int argc, const char * argv[]) {
     
+    int s;
+    int i,len1=0,len2=0;
+    int arr1[] = {1,3,5,7};
+    int arr2[] = {2,4,6,8};
     
-    int i,len=0;
-    int ary[] = {1,2,3,4,5,6,7,8,9,10};
-    
-    for (int b : ary){
-        len++;
+    for (int b : arr1){
+        len1++;
     }
+    for (int b : arr2){
+        len2++;
+    }
+    Array Z;
     
-    Array X(len);
-    X.setArray(ary);
-    X.display();
-    cout<<"Beginning rotation loop"<<endl;
+    Array X(len1);
+    Array Y(len2);
+    X.setArray(arr1);
+    Y.setArray(arr2);
+    
+    
+    Z = X.merge(Y);
+    Z.display();
     cout<<endl;
-    
-    X.rotationLoop(10);
-    
-    
+    X.display();
     return 0;
 }
